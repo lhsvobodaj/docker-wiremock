@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "ANY",
+    "urlPattern": ".*"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "index.html",
+    "headers": {
+      "Content-Type": "text/html"
+    }
+  }
+}

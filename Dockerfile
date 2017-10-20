@@ -12,14 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openjdk:8u141-jdk
+FROM ubuntu:16.04
 
-MAINTAINER Luiz Hermes Svoboda Junior
+MAINTAINER Luiz Hermes Svoboda Junior (luizek@gmail.com)
+
+ENV VERSION="2.9.0"
 
 RUN set -xe \
-    && mkdir -p /opt/wiremock \
-    && wget http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.8.0/wiremock-standalone-2.8.0.jar -P /opt/wiremock
+    && apt-get update \
+    && apt-get install -y \
+        openjdk-8-jre \
+        wget \
+    && mkdir -p /opt/wiremock/ \
+    && wget http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/${VERSION}/wiremock-standalone-${VERSION}.jar -P /opt/wiremock
 
-WORKDIR /opt/wiremock
+ADD __files /opt/wiremock/__files
+ADD mappings /opt/wiremock/mappings
 
-CMD ["/bin/bash"]
+WORKDIR /opt/wiremock/
+
+# VERSION variable cannot be used
+# EXEC form ENTRYPOINT does not perform variable substitution
+ENTRYPOINT ["java", "-jar", "wiremock-standalone-2.9.0.jar"]
