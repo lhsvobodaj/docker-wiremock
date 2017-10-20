@@ -16,7 +16,7 @@ FROM ubuntu:16.04
 
 MAINTAINER Luiz Hermes Svoboda Junior (luizek@gmail.com)
 
-ENV VERSION="2.9.0"
+ENV VERSION=2.9.0
 
 RUN set -xe \
     && apt-get update \
@@ -24,13 +24,12 @@ RUN set -xe \
         openjdk-8-jre \
         wget \
     && mkdir -p /opt/wiremock/ \
-    && wget http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/${VERSION}/wiremock-standalone-${VERSION}.jar -P /opt/wiremock
+    && wget -O wiremock-standalone.jar \
+        http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/${VERSION}/wiremock-standalone-${VERSION}.jar -P /opt/wiremock
 
 ADD __files /opt/wiremock/__files
 ADD mappings /opt/wiremock/mappings
 
 WORKDIR /opt/wiremock/
 
-# VERSION variable cannot be used
-# EXEC form ENTRYPOINT does not perform variable substitution
-ENTRYPOINT ["java", "-jar", "wiremock-standalone-2.9.0.jar"]
+ENTRYPOINT ["java", "-jar", "wiremock-standalone.jar"]
