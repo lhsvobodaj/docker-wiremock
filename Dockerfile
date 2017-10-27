@@ -16,14 +16,15 @@ FROM ubuntu:16.04
 
 MAINTAINER Luiz Hermes Svoboda Junior (luizek@gmail.com)
 
-ENV VERSION=2.9.0
-
 RUN set -xe \
     && apt-get update \
     && apt-get install -y \
         openjdk-8-jre \
-        wget \
-    && mkdir -p /opt/wiremock/ \
+        wget
+
+ENV VERSION=2.10.1
+
+RUN mkdir -p /opt/wiremock/ \
     && wget -O /opt/wiremock/wiremock-standalone.jar \
         http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/${VERSION}/wiremock-standalone-${VERSION}.jar
 
